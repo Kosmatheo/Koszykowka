@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koszykowkakosmy.databinding.ActivityMainBinding;
@@ -30,19 +31,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
         punktyViewModel = new ViewModelProvider( this).get(PunktyViewModel.class);
 
-        binding.tekst.setText(punktyViewModel.getPunkty()+"");
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        punktyViewModel.getPunkty().observe(
+                this, new Observer<Integer>() {
+                    @Override
+                    public void onChanged(Integer integer) {
+                        binding.tekst.setText(integer+"");
+                    }
+                }
+        );
         binding.button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         punktyViewModel.addPunkty(1);
-                        binding.tekst.setText(""+punktyViewModel.getPunkty());
                     }
                 }
         );
@@ -51,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         punktyViewModel.addPunkty(2);
-                        binding.tekst.setText(""+punktyViewModel.getPunkty());
                     }
                 }
         );
@@ -60,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         punktyViewModel.addPunkty(3);
-                        binding.tekst.setText(""+punktyViewModel.getPunkty());
                     }
                 }
         );
