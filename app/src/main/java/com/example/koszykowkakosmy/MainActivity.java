@@ -2,6 +2,7 @@ package com.example.koszykowkakosmy;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ActionMenuView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -12,55 +13,53 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.koszykowkakosmy.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity {
-    private TextView liczba;
-    private Button plus1;
-    private Button plus2;
-    private Button plus3;
+
     private int liczb = 0;
+    ActivityMainBinding binding; //nazwa klasy od nazwy pliku activity main.xml
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        liczba = findViewById(R.id.tekst);
-        plus1 = findViewById(R.id.button);
-        plus2 = findViewById(R.id.button2);
-        plus3 = findViewById(R.id.button3);
         if(savedInstanceState != null){
             liczb = savedInstanceState.getInt("LICZB");
-            liczba.setText(Integer.toString(liczb));
+            binding.tekst.setText(Integer.toString(liczb));
         }
-        plus1.setOnClickListener(
+        binding.button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         liczb++;
-                        liczba.setText(""+liczb);
+                        binding.tekst.setText(""+liczb);
                     }
                 }
         );
-        plus2.setOnClickListener(
+        binding.button2.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         liczb+=2;
-                        liczba.setText(""+liczb);
+                        binding.tekst.setText(""+liczb);
                     }
                 }
         );
-        plus3.setOnClickListener(
+        binding.button3.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         liczb+=3;
-                        liczba.setText(""+liczb);
+                        binding.tekst.setText(""+liczb);
                     }
                 }
         );
